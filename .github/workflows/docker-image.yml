@@ -63,17 +63,14 @@ jobs:
           cache-to: type=inline,mode=max
 
   scan-docker-image:
-    needs: build-and-push-docker
-    runs-on: ubuntu-latest
-    steps:
-      - name: Scan the Docker image
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/is601_assignment9:${{ github.sha }} # Ensure this matches the build step
-          format: table
-          exit-code: 1
-          ignore-unfixed: true
-          severity: CRITICAL,HIGH
-          scan-type: image
-          vuln-type: os,library
-          list-all-pkgs: false
+    name: Scan the Docker image
+    uses: aquasecurity/trivy-action@master
+    with:
+      image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/is601_assignment9:${{ github.sha }}
+      format: table
+      exit-code: 1
+      ignore-unfixed: true
+      severity: CRITICAL,HIGH
+      scan-type: image
+      vuln-type: os,library
+      list-all-pkgs: false
